@@ -1,4 +1,5 @@
 const path = require('path')
+const webpack = require('webpack')
 const HtmlWebpackPlugin  = require('html-webpack-plugin')
 const CleanWebpackPlugin  = require('clean-webpack-plugin')
 const ExtractTextPlugin = require('mini-css-extract-plugin')
@@ -14,7 +15,6 @@ module.exports = {
   },
   context: path.resolve(__dirname, 'src'),
   plugins: [
-    //extractTextPlugin,
     new CleanWebpackPlugin(['public']),
     new HtmlWebpackPlugin({
         template: 'index.html'
@@ -27,6 +27,17 @@ module.exports = {
     open: true,
     port: 3030,
     compress: true
+  },
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        commons: {
+          name: 'commons',
+          chunks: 'initial',
+          minChunks: 2
+        }
+      }
+    }
   },
   module: {
     rules: [
